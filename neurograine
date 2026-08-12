@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuroGraine — Psycho & Cerveau</title>
+    <!-- Tailwind CSS pour un design moderne et responsive -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- FontAwesome pour les icônes -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Couleurs exactes inspirées du logo : Vert Sauge et Rose Pastel */
+        :root {
+            --sage-green: #7C9082;
+            --sage-light: #F2F5F3;
+            --sage-dark: #506356;
+            --rose-pastel: #EAB8B1;
+            --rose-light: #FDF5F4;
+            --bg-cream: #FAF8F5;
+        }
+        .bg-sage { background-color: var(--sage-green); }
+        .bg-sage-light { background-color: var(--sage-light); }
+        .text-sage-dark { color: var(--sage-dark); }
+        .border-sage { border-color: var(--sage-green); }
+        .bg-rose-pastel { background-color: var(--rose-pastel); }
+        .text-rose-pastel { color: var(--rose-pastel); }
+        .border-rose-pastel { border-color: var(--rose-pastel); }
+        .bg-rose-light { background-color: var(--rose-light); }
+        
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg-cream);
+            color: #2D3748;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- En-tête / Barre de Navigation -->
+    <header class="bg-white/90 backdrop-blur shadow-sm sticky top-0 z-50 border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Logo SVG Réplique exacte du visuel NeuroGraine -->
+            <div class="flex items-center space-x-3 cursor-pointer group" onclick="switchPage('home')">
+                <div class="w-12 h-12 rounded-full bg-white flex items-center justify-center border-2 border-[#7C9082] shadow-sm overflow-hidden p-1">
+                    <svg viewBox="0 0 100 100" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Contour cerveau rose pastel -->
+                        <path d="M50 20 C35 20 25 32 25 45 C20 45 15 52 18 60 C15 68 22 75 30 72 C35 78 45 80 50 75 C55 80 65 78 70 72 C78 75 85 68 82 60 C85 52 80 45 75 45 C75 32 65 20 50 20 Z" fill="none" stroke="#EAB8B1" stroke-width="3" stroke-linejoin="round"/>
+                        <!-- Séparation et détails cerveau -->
+                        <path d="M50 25 L50 73" stroke="#EAB8B1" stroke-width="2" stroke-dasharray="2,2"/>
+                        <!-- Tige et Feuilles vertes -->
+                        <path d="M50 73 L50 82" stroke="#7C9082" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M50 78 C42 75 35 70 38 65 C42 63 48 70 50 78 Z" fill="#7C9082"/>
+                        <path d="M50 78 C58 75 65 70 62 65 C58 63 52 70 50 78 Z" fill="#7C9082"/>
+                    </svg>
+                </div>
+                <div>
+                    <span class="text-lg sm:text-xl font-bold tracking-wider text-[#506356]">NEUROGRAINE</span>
+                    <p class="text-[10px] text-gray-500 uppercase tracking-widest font-semibold">Psycho & Cerveau</p>
+                </div>
+            </div>
+
+            <!-- Navigation Bureau -->
+            <nav class="hidden md:flex space-x-8 items-center font-medium">
+                <button onclick="switchPage('home')" id="nav-home" class="text-sage-dark border-b-2 border-sage pb-1 transition-colors">
+                    <i class="fa-solid fa-house mr-1.5"></i> Accueil
+                </button>
+                <button onclick="switchPage('troubles')" id="nav-troubles" class="text-gray-600 hover:text-sage-dark pb-1 transition-colors">
+                    <i class="fa-solid fa-book-medical mr-1.5"></i> Troubles & Signaux
+                </button>
+                <button onclick="openModal()" class="bg-[#7C9082] text-white px-5 py-2.5 rounded-full shadow hover:bg-[#506356] transition-all text-sm font-medium">
+                    <i class="fa-solid fa-seedling mr-1"></i> Le Projet (Master)
+                </button>
+            </nav>
+
+            <!-- Bouton Menu Mobile -->
+            <button onclick="toggleMobileMenu()" class="md:hidden text-gray-700 focus:outline-none p-2">
+                <i class="fa-solid fa-bars text-2xl"></i>
+            </button>
+        </div>
+
+        <!-- Menu Mobile déroulant -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-gray-100 px-4 pt-2 pb-4 space-y-2">
+            <button onclick="switchPage('home'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded text-sage-dark font-medium bg-sage-light">
+                <i class="fa-solid fa-house mr-2"></i> Accueil
+            </button>
+            <button onclick="switchPage('troubles'); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded text-gray-700 hover:bg-gray-50 font-medium">
+                <i class="fa-solid fa-book-medical mr-2"></i> Troubles & Signaux
+            </button>
+            <button onclick="openModal(); toggleMobileMenu();" class="block w-full text-left py-2 px-3 rounded text-gray-700 hover:bg-gray-50 font-medium">
+                <i class="fa-solid fa-seedling mr-2"></i> Le Projet (Master)
+            </button>
+        </div>
+    </header>
+
+    <!-- Contenu Principal -->
+    <main class="flex-grow">
+
+        <!-- ================= PAGE 1 : ACCUEIL ================= -->
+        <div id="page-home" class="animate-fade">
+            <!-- Section Héro -->
+            <section class="relative bg-gradient-to-b from-[#F2F5F3] to-[#FAF8F5] py-16 md:py-24 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-4xl mx-auto text-center">
+                    <!-- Slogan du logo mis en valeur -->
+                    <div class="inline-flex items-center space-x-2 bg-white/90 backdrop-blur border border-[#EAB8B1]/50 px-5 py-2 rounded-full text-xs font-semibold text-[#506356] mb-6 tracking-wide shadow-sm">
+                        <span class="w-2 h-2 rounded-full bg-[#EAB8B1]"></span>
+                        <span>Comprendre le cerveau . Accompagner l'enfant</span>
+                    </div>
+                    
+                    <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-gray-900 tracking-tight mb-6">
+                        Cultiver la connaissance.<br>
+                        <span class="text-[#7C9082]">Éclairer l'enfance.</span>
+                    </h1>
+                    <p class="text-lg sm:text-xl text-gray-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+                        Un espace créé par une étudiante en psychologie pour rendre les neurosciences accessibles, déconstruire les idées reçues et offrir des clés concrètes sur le terrain aux parents et animateurs.
+                    </p>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <button onclick="switchPage('troubles')" class="bg-[#7C9082] text-white font-medium px-8 py-3.5 rounded-full shadow-md hover:bg-[#506356] transition-all transform hover:-translate-y-0.5">
+                            Explorer les troubles et signaux <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </button>
+                        <button onclick="openModal()" class="bg-white text-gray-700 border border-gray-300 font-medium px-8 py-3.5 rounded-full shadow-sm hover:bg-gray-50 transition-all">
+                            Découvrir la démarche
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section Publics Cibles : Parents & Animateurs -->
+            <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <div class="text-center mb-12">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">À qui s'adresse NeuroGraine ?</h2>
+                    <p class="text-gray-600 mt-2">Des ponts solides entre la recherche universitaire et la vie quotidienne.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Carte Parents -->
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-md transition-shadow">
+                        <div>
+                            <div class="w-14 h-14 bg-[#FDF5F4] rounded-2xl flex items-center justify-center text-[#EAB8B1] text-2xl mb-6 border border-[#EAB8B1]/20">
+                                <i class="fa-solid fa-house-chimney-user"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Pour les Parents</h3>
+                            <p class="text-gray-600 leading-relaxed mb-6">
+                                Comprendre les réactions émotionnelles de votre enfant, identifier ce qui se cache derrière une crise (fonctions exécutives, surcharge sensorielle) et déculpabiliser grâce à des explications bienveillantes fondées sur la science.
+                            </p>
+                            <ul class="space-y-2.5 text-sm text-gray-600 mb-6">
+                                <li><i class="fa-solid fa-check text-[#7C9082] mr-2"></i> Différencier caprice et immaturité cérébrale</li>
+                                <li><i class="fa-solid fa-check text-[#7C9082] mr-2"></i> Clés de gestion du sommeil et des écrans</li>
+                                <li><i class="fa-solid fa-check text-[#7C9082] mr-2"></i> Fiches claires sur le développement cognitif</li>
+                            </ul>
+                        </div>
+                        <button onclick="switchPage('troubles')" class="text-[#506356] font-semibold text-sm hover:underline text-left inline-flex items-center">
+                            Consulter les signaux d'alerte <i class="fa-solid fa-chevron-right ml-1.5 text-xs"></i>
+                        </button>
+                    </div>
+
+                    <!-- Carte Animateurs BAFA -->
+                    <div class="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 flex flex-col justify-between hover:shadow-md transition-shadow">
+                        <div>
+                            <div class="w-14 h-14 bg-[#F2F5F3] rounded-2xl flex items-center justify-center text-[#7C9082] text-2xl mb-6 border border-[#7C9082]/20">
+                                <i class="fa-solid fa-dice"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-gray-900 mb-3">Pour les Animateurs de Centre</h3>
+                            <p class="text-gray-600 leading-relaxed mb-6">
+                                Transformer votre BAFA en véritable atout de terrain ! Intégrez des activités ludiques qui sollicitent l'inhibition, l'attention ou la coopération sans que les enfants n'aient l'impression de « travailler ».
+                            </p>
+                            <ul class="space-y-2.5 text-sm text-gray-600 mb-6">
+                                <li><i class="fa-solid fa-check text-[#7C9082] mr-2"></i> Jeux pratiques pour travailler l'attention</li>
+                                <li><i class="fa-solid fa-check text-[#7C9082] mr-2"></i> Gestion de groupe et régulation des émotions</li>
+                                <li><i class="fa-solid fa-check text-[#7C9082] mr-2"></i> Adaptation face aux profils neuroatypiques</li>
+                            </ul>
+                        </div>
+                        <button onclick="switchPage('troubles')" class="text-[#506356] font-semibold text-sm hover:underline text-left inline-flex items-center">
+                            Explorer les outils d'animation <i class="fa-solid fa-chevron-right ml-1.5 text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ================= PAGE 2 : TROUBLES & SIGNAUX ================= -->
+        <div id="page-troubles" class="hidden max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 animate-fade">
+            <div class="max-w-3xl mx-auto text-center mb-10">
+                <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight mb-4">
+                    Guide des Troubles et Signaux Précoces
+                </h1>
+                <p class="text-gray-600 text-lg">
+                    Sélectionnez un trouble dans le menu déroulant ci-dessous pour découvrir ses manifestations, les signaux d'alerte observés sur le terrain et l'éclairage en neurosciences.
+                </p>
+            </div>
+
+            <!-- Menu Déroulant Intelligent -->
+            <div class="max-w-xl mx-auto mb-12">
+                <label for="trouble-select" class="block text-sm font-semibold text-gray-700 mb-2">
+                    <i class="fa-solid fa-filter text-[#7C9082] mr-1"></i> Choisir un trouble ou domaine :
+                </label>
+                <div class="relative">
+                    <select id="trouble-select" onchange="displayTroubleDetails(this.value)" class="w-full bg-white border border-gray-300 rounded-2xl py-3.5 px-4 pr-10 text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#7C9082] focus:border-[#7C9082] text-base cursor-pointer">
+                        <option value="tdah">TDAH (Trouble Déficitaire de l'Attention avec ou sans Hyperactivité)</option>
+                        <option value="tsa">TSA (Trouble du Spectre de l'Autisme)</option>
+                        <option value="dys">Troubles Spécifiques des Apprentissages (Troubles « Dys »)</option>
+                        <option value="anxiete">Troubles Anxieux et Phobies Scolaires chez l'enfant</option>
+                        <option value="oppOSITION">Trouble Oppositionnel avec Provocation (TOP)</option>
+                        <option value="td_coordination">Trouble Dév. de la Coordination (Dyspraxie / TDC)</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+                        <i class="fa-solid fa-chevron-down text-sm"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenu Dynamique du Trouble Sélectionné -->
+            <div id="trouble-content-container" class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden p-6 sm:p-10">
+                <!-- Injecté dynamiquement par JavaScript -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Modale d'Information sur le Projet -->
+    <div id="project-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-8 shadow-xl relative animate-scale">
+            <button onclick="closeModal()" class="absolute top-6 right-6 text-gray-400 hover:text-gray-600 text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="flex items-center space-x-3 mb-6">
+                <div class="w-12 h-12 bg-[#F2F5F3] rounded-full flex items-center justify-center text-[#7C9082] text-xl">
+                    <i class="fa-solid fa-seedling"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-bold text-gray-900">À propos du projet NeuroGraine</h3>
+                    <p class="text-xs text-[#7C9082] font-semibold">Licence de Psychologie — Dossier Master</p>
+                </div>
+            </div>
+            <p class="text-gray-600 leading-relaxed mb-4">
+                <strong>NeuroGraine</strong> est un projet personnel de vulgarisation scientifique né en licence de psychologie. Son objectif est double :
+            </p>
+            <ul class="space-y-2 text-sm text-gray-700 mb-6 bg-[#FAF8F5] p-4 rounded-2xl border border-gray-100">
+                <li><i class="fa-solid fa-brain text-[#7C9082] mr-2"></i> <strong>Rendre accessibles</strong> les connaissances en psychologie du développement et neurosciences.</li>
+                <li><i class="fa-solid fa-puzzle-piece text-[#7C9082] mr-2"></i> <strong>Allier la théorie à la pratique</strong> grâce à une double casquette d'étudiante en psycho et d'animatrice BAFA.</li>
+            </ul>
+            <p class="text-xs text-gray-500 italic">
+                Sources scientifiques rigoureuses, articles courts, et boîtes à outils de terrain pour changer le regard sur l'enfance.
+            </p>
+            <div class="mt-8 text-right">
+                <button onclick="closeModal()" class="bg-[#7C9082] text-white px-6 py-2.5 rounded-full text-sm font-medium hover:bg-[#506356] transition-all">
+                    J'ai compris
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pied de page -->
+    <footer class="bg-white border-t border-gray-100 mt-20 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between text-sm text-gray-500 space-y-4 md:space-y-0">
+            <div class="flex items-center space-x-2">
+                <span class="font-bold text-[#506356]">NeuroGraine</span>
+                <span>© 2026 — Comprendre le cerveau . Accompagner l'enfant.</span>
+            </div>
+            <div class="flex space-x-6 font-medium">
+                <button onclick="switchPage('home')" class="hover:text-[#7C9082]">Accueil</button>
+                <button onclick="switchPage('troubles')" class="hover:text-[#7C9082]">Troubles & Signaux</button>
+                <button onclick="openModal()" class="hover:text-[#7C9082]">Projet Master</button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts de navigation et de gestion dynamique -->
+    <script>
+        // Données complètes des troubles pour alimenter le menu déroulant dynamique
+        const troublesData = {
+            tdah: {
+                title: "TDAH (Trouble Déficitaire de l'Attention avec ou sans Hyperactivité)",
+                icon: "fa-bolt",
+                badge: "Fonctions exécutives & Attention",
+                summary: "Le TDAH est un trouble neurodéveloppemental caractérisé par des difficultés persistantes d'inattention, d'hyperactivité et/ou d'impulsivité, impactant le quotidien à l'école ou en centre de loisirs.",
+                signsParent: "Difficulté majeure à terminer une tâche ou un jeu calme, oublis fréquents d'affaires, impression de 'courir après le temps', bouge constamment sur sa chaise.",
+                signsBafa: "Difficulté prononcée à attendre son tour lors d'un jeu de société, agitation motrice intense dans les files d'attente, impulsivité dans les réactions face aux autres.",
+                neuroNote: "Implication directe des régions préfrontales et des circuits dopaminergiques régulant le contrôle inhibiteur et la mémoire de travail.",
+                conseil: "Privilégier des consignes courtes, découpées en étapes simples, et alterner phases actives et retours au calme structurés."
+            },
+            tsa: {
+                title: "TSA (Trouble du Spectre de l'Autisme)",
+                icon: "fa-puzzle-piece",
+                badge: "Communication & Traitement sensoriel",
+                summary: "Le TSA se manifeste par des particularités dans les interactions sociales, la communication, ainsi que par des intérêts restreints ou des sensibilités sensorielles atypiques.",
+                signsParent: "Rigidité face aux changements de routine, réactions intenses face à certains bruits ou textures, communication atypique (évitement du regard ou langage très formel).",
+                signsBafa: "Isolement lors des temps de jeux libres, difficultés à comprendre les codes implicites des jeux collectifs, surstimulation bruyante dans les grands groupes.",
+                neuroNote: "Particularités de connectivité neuronale et traitement atypique des informations sensorielles au niveau cortical.",
+                conseil: "Utiliser des supports visuels (pictogrammes du déroulement de la journée) et offrir un espace de repli calme et rassurant."
+            },
+            dys: {
+                title: "Troubles Spécifiques des Apprentissages (Troubles « Dys »)",
+                icon: "fa-book-open",
+                badge: "Langage, Lecture & Gnosies",
+                summary: "Dyslexie, dyspraxie, dysphasie... Ces troubles neurodéveloppementaux altèrent durablement l'acquisition d'un apprentissage spécifique malgré une intelligence normale.",
+                signsParent: "Fatigue extrême lors des devoirs, lenteur prononcée pour lire ou écrire, confusions de sons ou de lettres persistantes.",
+                signsBafa: "Difficultés de repérage dans l'espace lors de grands jeux, maladresse motrice récurrente (dyspraxie), frustration lors des consignes écrites.",
+                neuroNote: "Altération des réseaux neuronaux spécialisés dans le traitement phonologique ou visuo-spatial.",
+                conseil: "Valoriser les compétences orales, simplifier la mise en page des supports et proposer des alternatives aux consignes exclusivement écrites."
+            },
+            anxiete: {
+                title: "Troubles Anxieux et Phobies Scolaires chez l'enfant",
+                icon: "fa-heart-pulse",
+                badge: "Régulation émotionnelle & Amygdala",
+                summary: "Une anxiété excessive et persistante qui dépasse le stade des peurs évolutives normales, provoquant une détresse significative et des plaintes somatiques (maux de ventre, têtes).",
+                signsParent: "Plaintes physiques répétées avant d'aller à l'école, anticipations négatives constantes, pleurs inexpliqués liés à la séparation.",
+                signsBafa: "Refus de participer aux activités nouvelles par peur de l'échec, besoin excessif de réassurance de la part de l'animateur, isolement discret.",
+                neuroNote: "Hyperactivité de l'amygdale (centre de la peur) couplée à un défaut de régulation par le cortex préfrontal.",
+                conseil: "Ne jamais banaliser la peur de l'enfant. Nommer l'émotion et y aller progressivement ('petits pas') sans forcer brusquement."
+            },
+            oppOSITION: {
+                title: "Trouble Oppositionnel avec Provocation (TOP)",
+                icon: "fa-shield-halved",
+                badge: "Comportement & Opposition",
+                summary: "Caractérisé par un ensemble de comportements provocateurs, colériques ou contestataires envers les figures d'autorité, de manière récurrente.",
+                signsParent: "Discussions sans fin des règles familiales, contestation systématique, irritabilité facile.",
+                signsBafa: "Provocation ouverte envers l'animateur lors de l'énoncé des règles du jeu, refus d'obtempérer, mise à l'épreuve constante des limites.",
+                neuroNote: "Déficits de régulation du système limbique et difficultés à tolérer la frustration immédiate.",
+                conseil: "Éviter les luttes de pouvoir frontales. Proposer des choix limités ('Tu ranges le matériel de foot ou tu aides à installer les plots ?') pour maintenir un sentiment de contrôle."
+            },
+            td_coordination: {
+                title: "Trouble Développemental de la Coordination (TDC / Dyspraxie)",
+                icon: "fa-person-running",
+                badge: "Motricité fine & Grosse motricité",
+                summary: "Difficultés majeures dans la planification et l'exécution des mouvements gestuels coordonnés, sans explication neurologique ou musculaire directe.",
+                signsParent: "Difficultés à lacer ses chaussures, maladresse fréquente (renverse souvent des objets), lenteur pour s'habiller.",
+                signsBafa: "Difficultés marquées dans les jeux de ballons, maladresse dans les parcours sportifs, fatigue rapide lors des activités manuelles.",
+                neuroNote: "Dysfonctionnement des circuits cérébelleux et pariétaux impliqués dans la planification du geste.",
+                conseil: "Décomposer les gestes complexes en micro-étapes et déculpabiliser l'enfant face aux maladresses involontaires."
+            }
+        };
+
+        // Gestion des pages
+        function switchPage(pageId) {
+            const homePage = document.getElementById('page-home');
+            const troublesPage = document.getElementById('page-troubles');
+            const navHome = document.getElementById('nav-home');
+            const navTroubles = document.getElementById('nav-troubles');
+
+            if (pageId === 'home') {
+                homePage.classList.remove('hidden');
+                troublesPage.classList.add('hidden');
+                navHome.className = "text-[#506356] border-b-2 border-[#7C9082] pb-1 font-semibold transition-colors";
+                navTroubles.className = "text-gray-600 hover:text-[#7C9082] pb-1 transition-colors font-medium";
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else if (pageId === 'troubles') {
+                homePage.classList.add('hidden');
+                troublesPage.classList.remove('hidden');
+                navTroubles.className = "text-[#506356] border-b-2 border-[#7C9082] pb-1 font-semibold transition-colors";
+                navHome.className = "text-gray-600 hover:text-[#7C9082] pb-1 transition-colors font-medium";
+                
+                // Charger par défaut le premier trouble si vide
+                if (!document.getElementById('trouble-content-container').innerHTML.trim()) {
+                    displayTroubleDetails('tdah');
+                }
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // Affichage dynamique des détails du trouble sélectionné
+        function displayTroubleDetails(troubleKey) {
+            const data = troublesData[troubleKey];
+            if (!data) return;
+
+            const container = document.getElementById('trouble-content-container');
+            container.innerHTML = `
+                <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-gray-100 pb-6 mb-8 gap-4">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-14 h-14 bg-[#F2F5F3] rounded-2xl flex items-center justify-center text-[#7C9082] text-2xl shrink-0">
+                            <i class="fa-solid ${data.icon}"></i>
+                        </div>
+                        <div>
+                            <span class="inline-block bg-[#F2F5F3] text-[#506356] text-xs font-semibold px-3 py-1 rounded-full mb-1">
+                                ${data.badge}
+                            </span>
+                            <h2 class="text-2xl font-bold text-gray-900">${data.title}</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-8 bg-[#FAF8F5] p-6 rounded-2xl border border-gray-100">
+                    <h3 class="text-sm font-bold uppercase tracking-wider text-gray-500 mb-2">Définition & Résumé</h3>
+                    <p class="text-gray-700 text-lg leading-relaxed">${data.summary}</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+                    <!-- Signes Parents -->
+                    <div class="bg-[#FDF5F4] border border-[#EAB8B1]/30 p-6 rounded-2xl">
+                        <h3 class="text-base font-bold text-gray-900 mb-3 flex items-center">
+                            <i class="fa-solid fa-house-chimney text-[#EAB8B1] mr-2"></i> Signes observés par les Parents
+                        </h3>
+                        <p class="text-gray-700 text-sm leading-relaxed">${data.signsParent}</p>
+                    </div>
+
+                    <!-- Signes Animateurs -->
+                    <div class="bg-[#F2F5F3] border border-[#7C9082]/30 p-6 rounded-2xl">
+                        <h3 class="text-base font-bold text-gray-900 mb-3 flex items-center">
+                            <i class="fa-solid fa-dice text-[#7C9082] mr-2"></i> Signes observés sur le terrain (Animateur BAFA)
+                        </h3>
+                        <p class="text-gray-700 text-sm leading-relaxed">${data.signsBafa}</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Éclairage Neurosciences -->
+                    <div class="bg-white border border-gray-200 p-6 rounded-2xl shadow-sm">
+                        <h3 class="text-base font-bold text-gray-900 mb-2 flex items-center text-[#7C9082]">
+                            <i class="fa-solid fa-brain mr-2"></i> Éclairage en Neurosciences
+                        </h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">${data.neuroNote}</p>
+                    </div>
+
+                    <!-- Conseil Pratique -->
+                    <div class="bg-white border border-gray-200 p-6 rounded-2xl shadow-sm">
+                        <h3 class="text-base font-bold text-gray-900 mb-2 flex items-center text-[#EAB8B1]">
+                            <i class="fa-solid fa-lightbulb mr-2"></i> Piste d'accompagnement
+                        </h3>
+                        <p class="text-gray-600 text-sm leading-relaxed">${data.conseil}</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Gestion de la modale
+        function openModal() {
+            document.getElementById('project-modal').classList.remove('hidden');
+        }
+        function closeModal() {
+            document.getElementById('project-modal').classList.add('hidden');
+        }
+
+        // Menu Mobile
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+    </script>
+</body>
+</html>
